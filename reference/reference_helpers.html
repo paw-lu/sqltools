@@ -343,19 +343,21 @@ query.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
-<p>Find all customers with an id of 1, 4, or 5.
-&gt;&gt;&gt; import sqltools
-&gt;&gt;&gt; cust_ids = [1, 4, 5]
-&gt;&gt;&gt; query = f’’’
-…     –sql
-…     SELECT
-…         *
-…     FROM
-…         customer
-…     WHERE
-…         id IN {sqltools.to_sql_list(cust_ids)}
-… ‘’’
-&gt;&gt;&gt; sqltools.run_query(query)</p>
+<p>Find all customers with an id of 1, 4, or 5.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sqltools</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cust_ids</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">query</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">    --sql</span>
+<span class="gp">... </span><span class="s1">    SELECT</span>
+<span class="gp">... </span><span class="s1">        *</span>
+<span class="gp">... </span><span class="s1">    FROM</span>
+<span class="gp">... </span><span class="s1">        customer</span>
+<span class="gp">... </span><span class="s1">    WHERE</span>
+<span class="gp">... </span><span class="s1">        id IN {sqltools.to_sql_list(cust_ids)}</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sqltools</span><span class="o">.</span><span class="n">run_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="function">
