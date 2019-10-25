@@ -107,7 +107,7 @@ def run_query(
 
     Returns
     -------
-    DataFrame
+    pd.DataFrame
         Query results are returned as a Pandas DataFrame.
 
     Example
