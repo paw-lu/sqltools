@@ -335,14 +335,15 @@ def get_def(
         DataFrame containing all matching tables. Column name is "table_name".
     """
     query = f"""
-    SELECT
-        RDM_COLUMN_NAME column_name,
-        RDM_TABLE_NAME table_name,
-        RDM_BUSINESS_DEFINITION definition
-    FROM
-        V_Data_Dictionary
-    WHERE
-        RDM_COLUMN_NAME LIKE '%{search_term}%';
+        --sql
+        SELECT
+            RDM_COLUMN_NAME column_name,
+            RDM_TABLE_NAME table_name,
+            RDM_BUSINESS_DEFINITION definition
+        FROM
+            V_Data_Dictionary
+        WHERE
+            RDM_COLUMN_NAME LIKE '%{search_term}%';
     """
     return executers.run_query(
         query,
@@ -394,10 +395,11 @@ def head(
         The top ``n`` rows of the selected table.
     """
     query = f"""
-    SELECT
-        TOP {n} *
-    FROM
-        {table_name};
+        --sql
+        SELECT
+            TOP {n} *
+        FROM
+            {table_name};
     """
     return executers.run_query(
         query,
@@ -446,10 +448,11 @@ def get_cols(
         The column names of the inputted table.
     """
     query = f"""
-    SELECT
-        TOP 0 *
-    FROM
-        {table_name};
+        --sql
+        SELECT
+            TOP 0 *
+        FROM
+            {table_name};
     """
     return executers.run_query(
         query,
@@ -459,3 +462,62 @@ def get_cols(
         password=password,
         dsn=dsn,
     ).columns.tolist()
+
+
+def to_sql_list(
+    python_list: Union[str, int, float, List[Union[str, int, float]]],
+    force_string: bool = False,
+) -> str:
+    """
+    Turn a Python list into a SQL list.
+
+    Parameters
+    ----------
+    python_list : str, int, or List of floats, ints, or strings
+        Python list to convert to a SQL list.
+
+    force_string : bool, optional
+        Determine whether to force SQL list to be a list of strings. By default
+        is False, and will detect the type of the first element in the list.
+
+    Returns
+    -------
+    sql_list : str
+        Return string in the form of (a,b,c,d) for insertion into sql
+        query.
+
+    Example
+    -------
+    Find all customers with an id of 1, 4, or 5.
+    >>> import sqltools
+    >>> cust_ids = [1, 4, 5]
+    >>> query = f'''
+    ...     --sql
+    ...     SELECT
+    ...         *
+    ...     FROM
+    ...         customer
+    ...     WHERE
+    ...         id IN {sqltools.to_sql_list(cust_ids)}
+    ... '''
+    >>> sqltools.run_query(query)
+    """
+    # If a single element in inputted, turn into list
+    if isinstance(python_list, str):
+        python_list = [python_list]
+    elif isinstance(python_list, int):
+        python_list = [python_list]
+    elif isinstance(python_list, float):
+        python_list = [python_list]
+
+    if isinstance(python_list[0], str) or force_string:
+        quote = "'"
+    else:
+        quote = ""
+
+    sql_list = "("
+    for item in python_list:
+        sql_list += f"{quote}{item}{quote}, "
+    sql_list = sql_list.strip(", ")
+    sql_list += ")"
+    return sql_list

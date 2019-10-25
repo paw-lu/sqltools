@@ -1,4 +1,6 @@
 """Test the helper functions are working correctly."""
+from typing import List, Union
+
 import pandas as pd
 import pytest
 
@@ -103,3 +105,22 @@ def test_get_cols() -> None:
     ]
     actual_columns = helpers.get_cols("sys.tables")
     assert actual_columns == expected_columns
+
+
+@pytest.mark.parametrize(
+    ["python_list", "force_string", "expected_sql_list"],
+    [
+        ([1, 2, 3, 4, 5], False, "(1, 2, 3, 4, 5)"),
+        (["a", "e", "i", "o", "u"], False, "('a', 'e', 'i', 'o', 'u')"),
+        ([1, 2, 3, 4, 5], True, "('1', '2', '3', '4', '5')"),
+        ("a", False, "('a')"),
+    ],
+)
+def test_to_sql_list(
+    python_list: Union[str, int, float, List[Union[str, int, float]]],
+    force_string: bool,
+    expected_sql_list: str,
+) -> None:
+    """Test is ``to_sql_list`` propertly converts Python lists to SQL."""
+    actual_sql_list = helpers.to_sql_list(python_list, force_string=force_string)
+    assert actual_sql_list == expected_sql_list
