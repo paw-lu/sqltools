@@ -84,8 +84,8 @@ def run_query(
 
     Parameters
     ----------
-    query : str
-        The sql query to execute.
+    query : SQL str
+        The SQL query to execute.
     database : str, optional
         The database to connect to. By default is "QuantDB".
     server : str, optional
@@ -144,8 +144,8 @@ def run_command(
 
     Parameters
     ----------
-    command : str
-        The sql command to execute.
+    command : SQL str
+        The SQL command to execute.
     database : str, optional
         The database to connect to. By default is "QuantDB".
     server : str, optional
