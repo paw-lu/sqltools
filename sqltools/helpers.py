@@ -390,7 +390,7 @@ def head(
 
     Returns
     -------
-    table : pd.DataFrame
+    table_head : pd.DataFrame
         The top ``n`` rows of the selected table.
     """
     query = f"""
@@ -407,3 +407,55 @@ def head(
         password=password,
         dsn=dsn,
     )
+
+
+def get_cols(
+    table_name: str,
+    database: str = "QuantDB",
+    server: str = "DC1Q2PSQLGE1V",
+    username: Optional[str] = None,
+    password: Optional[str] = None,
+    dsn: str = "MYMSSQL",
+) -> List[str]:
+    r"""
+    Return all of a table's column names.
+
+    Parameters
+    ----------
+    table_name : str
+        Name of the table whose columns will be returned.
+    database : str, optional
+        The database to connect to. By default is "QuantDB".
+    server : str, optional
+        The server to connect to. By default is "DC1Q2PSQLGE1V".
+    username : str in the form of "FRB\\pcosta", optional
+        SQL database username. By default None, uses Kerberos authentication if
+        on Windows or environmental variable ``SQLUSERNAME`` if on Linux or
+        macOS.
+    password : str, optional
+        SQL database password. By default None, uses Kerberos authentication
+        if on Windows or environmental variable ``SQLPASSWORD`` if on Linux or
+        macOS.
+    dsn : str, optional
+        Server connection object for macOS if using unixODBC. By default set to
+        "MYMSSQL".
+
+    Returns
+    -------
+    column_names : List[str]
+        The column names of the inputted table.
+    """
+    query = f"""
+    SELECT
+        TOP 0 *
+    FROM
+        {table_name};
+    """
+    return executers.run_query(
+        query,
+        database=database,
+        server=server,
+        username=username,
+        password=password,
+        dsn=dsn,
+    ).columns.tolist()
