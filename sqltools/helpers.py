@@ -127,9 +127,6 @@ def show_temp(
     dsn : str, optional
         Server connection object for macOS if using unixODBC. By default set to
         "MYMSSQL".
-    params : List or tuple of strings, optional
-        Any parameters to fill in. They will fill any "?" characters found in
-        query, by default None.
 
     Returns
     -------
@@ -164,7 +161,7 @@ def find_cols(
     dsn: str = "MYMSSQL",
 ) -> pd.DataFrame:
     r"""
-    Return the tables that contain the inputted column name.
+    Return the tables whose columns containt the inputted search terms.
 
     Parameters
     ----------
@@ -186,9 +183,6 @@ def find_cols(
     dsn : str, optional
         Server connection object for macOS if using unixODBC. By default set to
         "MYMSSQL".
-    params : List or tuple of strings, optional
-        Any parameters to fill in. They will fill any "?" characters found in
-        query, by default None.
 
     Returns
     -------
@@ -199,6 +193,7 @@ def find_cols(
         search_terms = [search_terms]
 
     query_template = """
+        --sql
         SELECT
             c.name column_name,
             CASE
@@ -214,7 +209,7 @@ def find_cols(
                 {%- if loop.first %}\n\tc.name LIKE '%{{ term }}%'
                 {%- else %}\n\tAND c.name LIKE '%{{ term }}%'
                 {%- endif %}
-            {%- endfor %}
+            {%- endfor %};
     """
 
     query = jinja2.Template(query_template).render(search_terms=search_terms)
@@ -227,3 +222,77 @@ def find_cols(
         dsn=dsn,
     )
 
+
+def find_tables(
+    search_terms: Union[str, List[str], Tuple[str, ...]],
+    database: str = "QuantDB",
+    server: str = "DC1Q2PSQLGE1V",
+    username: Optional[str] = None,
+    password: Optional[str] = None,
+    dsn: str = "MYMSSQL",
+) -> pd.DataFrame:
+    r"""
+    Return the tables whose names contain the inputted search terms.
+
+    Parameters
+    ----------
+    search_terms : Union[str, List[str], Tuple[str, ...]]
+        Terms of list of terms that will be searched for. If multiple terms are
+        inputted, returned table names must match each term.
+    database : str, optional
+        The database to connect to. By default is "QuantDB".
+    server : str, optional
+        The server to connect to. By default is "DC1Q2PSQLGE1V".
+    username : str in the form of "FRB\\pcosta", optional
+        SQL database username. By default None, uses Kerberos authentication if
+        on Windows or environmental variable ``SQLUSERNAME`` if on Linux or
+        macOS.
+    password : str, optional
+        SQL database password. By default None, uses Kerberos authentication
+        if on Windows or environmental variable ``SQLPASSWORD`` if on Linux or
+        macOS.
+    dsn : str, optional
+        Server connection object for macOS if using unixODBC. By default set to
+        "MYMSSQL".
+
+    Returns
+    -------
+    tables : pd.DataFrame
+        DataFrame containing all matching tables. Column name is "table_name".
+    """
+    if isinstance(search_terms, str):
+        search_terms = [search_terms]
+
+    query_template = """
+        --sql
+        SELECT
+            name table_name
+        FROM
+            sys.tables
+        WHERE
+            {%- for term in search_terms -%}
+                {%- if loop.first %}\n\tname LIKE '%{{ term }}%'
+                {%- else %}\n\tAND name LIKE '%{{ term }}%'
+                {%- endif %}
+            {%- endfor %}
+        UNION ALL
+        SELECT
+            name table_name
+        FROM
+            sys.views
+        WHERE
+            {%- for term in search_terms -%}
+                {%- if loop.first %}\n\tname LIKE '%{{ term }}%'
+                {%- else %}\n\tAND name LIKE '%{{ term }}%'
+                {%- endif %}
+            {%- endfor %};
+    """
+    query = jinja2.Template(query_template).render(search_terms=search_terms)
+    return executers.run_query(
+        query,
+        database=database,
+        server=server,
+        username=username,
+        password=password,
+        dsn=dsn,
+    )

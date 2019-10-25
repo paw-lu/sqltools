@@ -44,3 +44,10 @@ def test_find_cols() -> None:
     expected_columns = ["column_name", "table_name"]
     actual_columns = helpers.find_cols("test").columns.tolist()
     assert expected_columns == actual_columns
+
+
+def test_find_tables() -> None:
+    """Test that ``find_tables`` runs."""
+    expected_columns = ["table_name"]
+    actual_columns = helpers.find_tables("test").columns.tolist()
+    assert expected_columns == actual_columns
