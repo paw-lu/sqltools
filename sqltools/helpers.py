@@ -81,7 +81,10 @@ class TempTable:
         )[1]
         # Check if table already exists and drop it if it does
         executers.run_command(
-            f"IF OBJECT_ID('tempdb..{temp_table_name}','U') IS NOT NULL DROP TABLE {temp_table_name};"
+            f"""
+                IF OBJECT_ID('tempdb..{temp_table_name}','U') IS NOT NULL
+                DROP TABLE{temp_table_name};
+            """
         )
         connection_string = executers._get_connection_string(
             database=database,
