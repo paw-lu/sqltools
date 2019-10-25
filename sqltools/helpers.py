@@ -1,4 +1,5 @@
 """A collection of helper functions related to SQL."""
+import pandas as pd
 import pyodbc
 import re
 from typing import Optional
@@ -95,3 +96,58 @@ class TempTable:
     def close(self) -> None:
         """Remove the created temporary table."""
         self.conn.close()
+
+
+def show_temp(
+    database: str = "QuantDB",
+    server: str = "DC1Q2PSQLGE1V",
+    username: Optional[str] = None,
+    password: Optional[str] = None,
+    dsn: str = "MYMSSQL",
+) -> pd.DataFrame:
+    r"""
+    Show all temporary tables in the database.
+
+    Parameters
+    ----------
+    database : str, optional
+        The database to connect to. By default is "QuantDB".
+    server : str, optional
+        The server to connect to. By default is "DC1Q2PSQLGE1V".
+    username : str in the form of "FRB\\pcosta", optional
+        SQL database username. By default None, uses Kerberos authentication if
+        on Windows or environmental variable ``SQLUSERNAME`` if on Linux or
+        macOS.
+    password : str, optional
+        SQL database password. By default None, uses Kerberos authentication
+        if on Windows or environmental variable ``SQLPASSWORD`` if on Linux or
+        macOS.
+    dsn : str, optional
+        Server connection object for macOS if using unixODBC. By default set to
+        "MYMSSQL".
+    params : List or tuple of strings, optional
+        Any parameters to fill in. They will fill any "?" characters found in
+        query, by default None.
+
+    Returns
+    -------
+    temp_table_names : pd.DataFrame
+        Query results are returned as a Pandas DataFrame.
+    """
+    query = """
+        --sql
+        SELECT
+            name
+        FROM
+            tempdb.sys.objects
+        WHERE
+            name LIKE '##%';
+    """
+    return executers.run_query(
+        query,
+        database=database,
+        server=server,
+        username=username,
+        password=password,
+        dsn=dsn,
+    )
