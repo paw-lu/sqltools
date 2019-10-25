@@ -352,3 +352,58 @@ def get_def(
         password=password,
         dsn=dsn,
     )
+
+
+def head(
+    table_name: str,
+    n: int = 5,
+    database: str = "QuantDB",
+    server: str = "DC1Q2PSQLGE1V",
+    username: Optional[str] = None,
+    password: Optional[str] = None,
+    dsn: str = "MYMSSQL",
+) -> pd.DataFrame:
+    r"""
+    Return the first ``n`` rows from a table.
+
+    Parameters
+    ----------
+    table_name : str
+        Name of the table from which the top ``n`` rows will be returned from.
+    n : int, optional
+        The number of rows to return. By default is 5.
+    database : str, optional
+        The database to connect to. By default is "QuantDB".
+    server : str, optional
+        The server to connect to. By default is "DC1Q2PSQLGE1V".
+    username : str in the form of "FRB\\pcosta", optional
+        SQL database username. By default None, uses Kerberos authentication if
+        on Windows or environmental variable ``SQLUSERNAME`` if on Linux or
+        macOS.
+    password : str, optional
+        SQL database password. By default None, uses Kerberos authentication
+        if on Windows or environmental variable ``SQLPASSWORD`` if on Linux or
+        macOS.
+    dsn : str, optional
+        Server connection object for macOS if using unixODBC. By default set to
+        "MYMSSQL".
+
+    Returns
+    -------
+    table : pd.DataFrame
+        The top ``n`` rows of the selected table.
+    """
+    query = f"""
+    SELECT
+        TOP {n} *
+    FROM
+        {table_name};
+    """
+    return executers.run_query(
+        query,
+        database=database,
+        server=server,
+        username=username,
+        password=password,
+        dsn=dsn,
+    )

@@ -1,5 +1,6 @@
 """Test the helper functions are working correctly."""
 import pandas as pd
+import pytest
 
 from sqltools import executers, helpers
 
@@ -51,3 +52,10 @@ def test_find_tables() -> None:
     expected_columns = ["table_name"]
     actual_columns = helpers.find_tables("test").columns.tolist()
     assert expected_columns == actual_columns
+
+
+@pytest.mark.parametrize(["n", "expected_rows"], [(1, 1), (5, 5)])
+def test_head(n: int, expected_rows: int) -> None:
+    """Test that ``head`` retruns the top ``n`` rows of a ``sys.tables``."""
+    actual_rows = helpers.head("sys.tables", n=n).shape[0]
+    assert actual_rows == expected_rows
