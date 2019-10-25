@@ -5,9 +5,7 @@ from typing import Optional
 
 from sqltools import executers
 
-# Make a temp table with this class
-# loan_sample = TempTable("SELECT TOP 10 * INTO ##temp_table FROM loan;")
-# loan_sample.close() when done
+
 class TempTable:
     r"""
     Create a temporary table.
@@ -37,7 +35,6 @@ class TempTable:
 
     Example
     -------
-
     Create a temporary table with 10 customers.
 
     >>> import sqltools
