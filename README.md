@@ -76,4 +76,5 @@ customer_sample.close()  # Close when done with temporary table
 
 ## Documentation
 
-More functionality may de found in the docs.
+More functionality and accompanying examples may be found in the docs.
+https://pscosta5.github.io/sqltools/
