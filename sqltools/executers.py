@@ -29,7 +29,7 @@ def _get_connection_string(
     platform : str, optional
         [description], by default detects platform. Expects "darwin" (macOS),
         "win32", or "linux".
-    username : str in the form of "FRB\\pcosta", optional
+    username : str in the form of "FRD\\pcosta", optional
         SQL database username. By default None, uses Kerberos authentication if
         on Windows or environmental variable ``SQLUSERNAME`` if on Linux or
         macOS.
@@ -72,8 +72,8 @@ def _get_connection_string(
 
 def run_query(
     query: str,
-    database: str = "QuantDB",
-    server: str = "DC1Q2PSQLGE1V",
+    database: str = "DefaultDB",
+    server: str = "DefaultServer",
     username: Optional[str] = None,
     password: Optional[str] = None,
     dsn: str = "MYMSSQL",
@@ -87,10 +87,10 @@ def run_query(
     query : SQL str
         The SQL query to execute.
     database : str, optional
-        The database to connect to. By default is "QuantDB".
+        The database to connect to. By default is "DefaultDB".
     server : str, optional
-        The server to connect to. By default is "DC1Q2PSQLGE1V".
-    username : str in the form of "FRB\\pcosta", optional
+        The server to connect to. By default is "DefaultServer".
+    username : str in the form of "FRD\\pcosta", optional
         SQL database username. By default None, uses Kerberos authentication if
         on Windows or environmental variable ``SQLUSERNAME`` if on Linux or
         macOS.
@@ -133,8 +133,8 @@ def run_query(
 
 def run_command(
     command: str,
-    database: str = "QuantDB",
-    server: str = "DC1Q2PSQLGE1V",
+    database: str = "DefaultDB",
+    server: str = "DefaultServer",
     username: Optional[str] = None,
     password: Optional[str] = None,
     dsn: str = "MYMSSQL",
@@ -147,10 +147,10 @@ def run_command(
     command : SQL str
         The SQL command to execute.
     database : str, optional
-        The database to connect to. By default is "QuantDB".
+        The database to connect to. By default is "DefaultDB".
     server : str, optional
-        The server to connect to. By default is "DC1Q2PSQLGE1V".
-    username : str in the form of "FRB\\pcosta", optional
+        The server to connect to. By default is "DefaultServer".
+    username : str in the form of "FRD\\pcosta", optional
         SQL database username. By default None, uses Kerberos authentication if
         on Windows or environmental variable ``SQLUSERNAME`` if on Linux or
         macOS.
@@ -172,11 +172,11 @@ def run_command(
     ... '''
     >>> sqltools.run_command(command)
 
-    Set the default schema of user FRB\\abby to "gb".
+    Set the default schema of user FRD\\abby to "gb".
 
     >>> import sqltools
     >>> command = '''
-    ...     ALTER USER [FRB\\abby] WITH DEFAULT_SCHEMA = "gb";
+    ...     ALTER USER [FRD\\abby] WITH DEFAULT_SCHEMA = "gb";
     ... '''
     >>> sqltoo.run_command(command)
     """
