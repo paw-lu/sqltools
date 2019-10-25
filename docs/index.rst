@@ -10,7 +10,9 @@ Welcome to sqltools's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   README
+   reference/reference_executers
+   reference/reference_helpers
 
 Indices and tables
 ==================
