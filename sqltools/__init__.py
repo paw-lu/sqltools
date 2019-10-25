@@ -1,5 +1,5 @@
 """Functions to make data exploration easier in Python."""
-from .executers import run_query
+from .executers import run_command, run_query
 from .helpers import (
     TempTable,
     find_cols,
@@ -9,10 +9,12 @@ from .helpers import (
     head,
     show_temp,
     to_sql_list,
+    unique,
 )
 
 __all__ = [
     "run_query",
+    "run_command",
     "TempTable",
     "show_temp",
     "find_cols",
@@ -21,4 +23,5 @@ __all__ = [
     "head",
     "get_cols",
     "to_sql_list",
+    "unique",
 ]

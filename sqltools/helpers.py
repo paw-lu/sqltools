@@ -521,3 +521,59 @@ def to_sql_list(
     sql_list = sql_list.strip(", ")
     sql_list += ")"
     return sql_list
+
+
+def unique(
+    column: str,
+    table: str,
+    database: str = "QuantDB",
+    server: str = "DC1Q2PSQLGE1V",
+    username: Optional[str] = None,
+    password: Optional[str] = None,
+    dsn: str = "MYMSSQL",
+) -> List[str]:
+    r"""
+    Return unique values of ``column`` from ``table``.
+
+    Parameters
+    ----------
+    column : str
+        Name of column for which to return the unique values of.
+    table : str
+        Name of the table for which ``column`` belongs to.
+    database : str, optional
+        The database to connect to. By default is "QuantDB".
+    server : str, optional
+        The server to connect to. By default is "DC1Q2PSQLGE1V".
+    username : str in the form of "FRB\\pcosta", optional
+        SQL database username. By default None, uses Kerberos authentication if
+        on Windows or environmental variable ``SQLUSERNAME`` if on Linux or
+        macOS.
+    password : str, optional
+        SQL database password. By default None, uses Kerberos authentication
+        if on Windows or environmental variable ``SQLPASSWORD`` if on Linux or
+        macOS.
+    dsn : str, optional
+        Server connection object for macOS if using unixODBC. By default set to
+        "MYMSSQL".
+
+    Returns
+    -------
+    column_names : List[str]
+        The column names of the inputted table.
+    """
+    query = f"""
+        --sql
+        SELECT
+            DISTINCT({column})
+        FROM
+            {table};
+    """
+    return executers.run_query(
+        query,
+        database=database,
+        server=server,
+        username=username,
+        password=password,
+        dsn=dsn,
+    )
