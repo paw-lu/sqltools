@@ -1,3 +1,6 @@
+# Preview of docs
+docs/_build/
+
 # Duplicated README
 docs/README.md
 
@@ -6,7 +9,6 @@ docs/README.md
 
 # Scratch files
 **/scratch.*
-*.ipynb
 
 # Generated documentation
 docs/_build/
