@@ -2,6 +2,7 @@
 from .executers import run_command, run_query
 from .helpers import (
     TempTable,
+    change_schema,
     find_cols,
     find_tables,
     get_cols,
@@ -24,4 +25,5 @@ __all__ = [
     "get_cols",
     "to_sql_list",
     "unique",
+    "change_schema"
 ]

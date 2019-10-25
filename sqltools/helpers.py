@@ -531,7 +531,7 @@ def unique(
     username: Optional[str] = None,
     password: Optional[str] = None,
     dsn: str = "MYMSSQL",
-) -> List[str]:
+) -> pd.DataFrame:
     r"""
     Return unique values of ``column`` from ``table``.
 
@@ -559,8 +559,8 @@ def unique(
 
     Returns
     -------
-    column_names : List[str]
-        The column names of the inputted table.
+    unique_values: pd.DataFrame
+        The unique values of the column specified in ``column``.
     """
     query = f"""
         --sql
@@ -571,6 +571,55 @@ def unique(
     """
     return executers.run_query(
         query,
+        database=database,
+        server=server,
+        username=username,
+        password=password,
+        dsn=dsn,
+    )
+
+
+def change_schema(
+    schema: str,
+    database: str = "QuantDB",
+    server: str = "DC1Q2PSQLGE1V",
+    username: Optional[str] = None,
+    password: Optional[str] = None,
+    dsn: str = "MYMSSQL",
+) -> None:
+    r"""
+    Change the default schema of the user.
+
+    Parameters
+    ----------
+    schema : str
+        Schema name to be set to new default.
+    database : str, optional
+        The database to connect to. By default is "QuantDB".
+    server : str, optional
+        The server to connect to. By default is "DC1Q2PSQLGE1V".
+    username : str in the form of "FRB\\pcosta", optional
+        SQL database username. By default None, uses Kerberos authentication if
+        on Windows or environmental variable ``SQLUSERNAME`` if on Linux or
+        macOS.
+    password : str, optional
+        SQL database password. By default None, uses Kerberos authentication
+        if on Windows or environmental variable ``SQLPASSWORD`` if on Linux or
+        macOS.
+    dsn : str, optional
+        Server connection object for macOS if using unixODBC. By default set to
+        "MYMSSQL".
+    """
+    username = executers.run_query(
+        "SELECT CURRENT_USER;",
+        database=database,
+        server=server,
+        username=username,
+        password=password,
+        dsn=dsn,
+    ).iloc[0][0]
+    executers.run_command(
+        f"ALTER USER [{username}] WITH DEFAULT_SCHEMA = {schema};",
         database=database,
         server=server,
         username=username,
