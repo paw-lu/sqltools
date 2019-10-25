@@ -296,3 +296,59 @@ def find_tables(
         password=password,
         dsn=dsn,
     )
+
+
+def get_def(
+    search_term,
+    database="RDM",
+    server="vdbedcisandbox",
+    username: Optional[str] = None,
+    password: Optional[str] = None,
+    dsn: str = "MYMSSQL",
+) -> pd.DataFrame:
+    r"""
+    Find the definition of a column name from the data dictionary.
+
+    Parameters
+    ----------
+    search_terms : Union[str, List[str], Tuple[str, ...]]
+        Terms of list of terms that will be searched for in data dictionary.
+    database : str, optional
+        The database to connect to. By default is "RDM".
+    server : str, optional
+        The server to connect to. By default is "vdbedcisandbox".
+    username : str in the form of "FRB\\pcosta", optional
+        SQL database username. By default None, uses Kerberos authentication if
+        on Windows or environmental variable ``SQLUSERNAME`` if on Linux or
+        macOS.
+    password : str, optional
+        SQL database password. By default None, uses Kerberos authentication
+        if on Windows or environmental variable ``SQLPASSWORD`` if on Linux or
+        macOS.
+    dsn : str, optional
+        Server connection object for macOS if using unixODBC. By default set to
+        "MYMSSQL".
+
+    Returns
+    -------
+    tables : pd.DataFrame
+        DataFrame containing all matching tables. Column name is "table_name".
+    """
+    query = f"""
+    SELECT
+        RDM_COLUMN_NAME column_name,
+        RDM_TABLE_NAME table_name,
+        RDM_BUSINESS_DEFINITION definition
+    FROM
+        V_Data_Dictionary
+    WHERE
+        RDM_COLUMN_NAME LIKE '%{search_term}%';
+    """
+    return executers.run_query(
+        query,
+        database=database,
+        server=server,
+        username=username,
+        password=password,
+        dsn=dsn,
+    )
