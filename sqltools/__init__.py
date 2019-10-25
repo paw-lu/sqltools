@@ -25,5 +25,5 @@ __all__ = [
     "get_cols",
     "to_sql_list",
     "unique",
-    "change_schema"
+    "change_schema",
 ]
