@@ -10,7 +10,7 @@ setup(
     name="sqltools",
     version="0.0.1",
     description="Python library for convenient SQL functionality",
-    url="",
+    url="https://github.com/pscosta5/sqltools.git",
     author="Paulo S. Costa",
     author_email="Paulo.S.Costa.5@gmail.com",
     maintainer="Paulo S. Costa",
