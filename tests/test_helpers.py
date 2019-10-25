@@ -37,3 +37,10 @@ def test_show_temp() -> None:
     table_names = helpers.show_temp()["name"].values
     one.close()
     assert expected_table in table_names
+
+
+def test_find_cols() -> None:
+    """Test that ``find_cols`` runs."""
+    expected_columns = ["column_name", "table_name"]
+    actual_columns = helpers.find_cols("test").columns.tolist()
+    assert expected_columns == actual_columns
