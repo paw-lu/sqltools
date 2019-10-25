@@ -435,6 +435,7 @@ def to_sql_list(
     Example
     -------
     Find all customers with an id of 1, 4, or 5.
+
     >>> import sqltools
     >>> cust_ids = [1, 4, 5]
     >>> query = f'''
