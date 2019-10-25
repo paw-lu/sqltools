@@ -192,8 +192,8 @@ def find_cols(
 
     Returns
     -------
-    temp_table_names : pd.DataFrame
-        Query results are returned as a Pandas DataFrame.
+    column_locations : pd.DataFrame
+        DataFrame with columns "column_name" and "table_name".
     """
     if isinstance(search_terms, str):
         search_terms = [search_terms]
@@ -226,3 +226,4 @@ def find_cols(
         password=password,
         dsn=dsn,
     )
+
