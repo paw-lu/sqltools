@@ -59,7 +59,7 @@ class TempTable:
     ...     FROM
     ...         ##ten_customers;
     ... '''
-    >>> sqltools.run_query(queryd)
+    >>> sqltools.run_query(query)
 
     The temporary table may be closed when no longer in use.
 
