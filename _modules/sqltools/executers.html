@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>sqltools.executers &#8212; sqltools 0.0.1 documentation</title>
+    <style>
+    :root {
+        --mdc-theme-primary: #2d907f;
+        --mdc-theme-secondary: #e1c133;
+    }
+    </style>
+
+    <link rel="stylesheet" href="../../_static/bundle-style.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js" async></script>
+        <!-- _static/jquery.js -->
+        
+        <!-- _static/underscore.js -->
+        
+        <!-- _static/doctools.js -->
+        
+        <!-- _static/language_data.js -->
+        
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="../../_static/bundle.js" async></script>
+    <script src="../../_static/underscore.js" async></script>
+    <script src="../../_static/doctools.js" async></script>
+    <script src="../../_static/language_data.js" async></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head>
+  <body class="mdc-typography">
+  
+
+
+<header class="mdc-top-app-bar app-bar" id="app-bar">
+    <div class="mdc-top-app-bar__row">
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+        <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+        <span class="mdc-top-app-bar__title"><a href="../../index.html" class="nostylea">sqltools 0.0.1 documentation</a></span>
+      </section>
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+            <a href="../../search.html" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" title="Search">search</a>
+        </section>
+    </div>
+  </header>
+  <aside class="mdc-drawer mdc-drawer--modal">
+    <div class="mdc-drawer__header">
+        <h3 class="mdc-drawer__title"><a class="nostylea" href="../../index.html">sqltools 0.0.1 documentation</a></h3>
+    </div>
+    <div class="mdc-drawer__content">
+      <div class="mdc-list">
+        <h6 class="mdc-list-group__subheader">Contents</h6>
+        <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../README.html">sqltools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/reference_executers.html">Executer functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/reference_helpers.html">Helper functions</a></li>
+</ul>
+
+        
+        <h6 class="mdc-list-group__subheader" style="margin-bottom: 16px;">Options</h6>
+        <div class="mdc-switch">
+            <div class="mdc-switch__track"></div>
+            <div class="mdc-switch__thumb-underlay">
+                <div class="mdc-switch__thumb">
+                    <input type="checkbox" id="basic-switch" class="mdc-switch__native-control" role="switch">
+                </div>
+            </div>
+        </div>
+        <label for="basic-switch" style="padding-left: 16px; cursor: pointer;">Dark theme</label>
+      
+      </div>
+      
+    </div>
+  </aside>
+
+  <div class="mdc-drawer-scrim"></div>
+  
+  <div class="mdc-drawer-app-content">
+    <main class="main-content" id="main-content">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for sqltools.executers</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions that execute commands and queries.&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pyodbc</span>
+
+<span class="n">pyodbc</span><span class="o">.</span><span class="n">lowercase</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="k">def</span> <span class="nf">_get_connection_string</span><span class="p">(</span>
+    <span class="n">database</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">server</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">username</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">password</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">dsn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;MYMSSQL&quot;</span><span class="p">,</span>
+    <span class="n">platform</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the proper connection string for SQL Server.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    database : str</span>
+<span class="sd">        The database name to establish a connection to.</span>
+<span class="sd">    server : str</span>
+<span class="sd">        The server name to establish a connection to.</span>
+<span class="sd">    platform : str, optional</span>
+<span class="sd">        [description], by default detects platform. Expects &quot;darwin&quot; (macOS),</span>
+<span class="sd">        &quot;win32&quot;, or &quot;linux&quot;.</span>
+<span class="sd">    username : str in the form of &quot;FRD\\pcosta&quot;, optional</span>
+<span class="sd">        SQL database username. By default None, uses Kerberos authentication if</span>
+<span class="sd">        on Windows or environmental variable ``SQLUSERNAME`` if on Linux or</span>
+<span class="sd">        macOS.</span>
+<span class="sd">    password : str, optional</span>
+<span class="sd">        SQL database password. By default None, uses Kerberos authentication</span>
+<span class="sd">        if on Windows or environmental variable ``SQLPASSWORD`` if on Linux or</span>
+<span class="sd">        macOS.</span>
+<span class="sd">    dsn : str, optional</span>
+<span class="sd">        Server connection object for macOS if using unixODBC. By default set to</span>
+<span class="sd">        &quot;MYMSSQL&quot;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    connection_string : str</span>
+<span class="sd">        String to be used as ``str`` argument in ``pyodbc.connect()``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;darwin&quot;</span> <span class="ow">or</span> <span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;linux&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">username</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SQLUSERNAME&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">password</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">password</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;SQLPASSWORD&quot;</span><span class="p">]</span>
+    <span class="n">connection_strings</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;win32&quot;</span><span class="p">:</span> <span class="s2">&quot;Driver={ODBC Driver 13 for SQL Server};&quot;</span>
+        <span class="n">f</span><span class="s2">&quot;Server=</span><span class="si">{server}</span><span class="s2">;&quot;</span>
+        <span class="n">f</span><span class="s2">&quot;Database=</span><span class="si">{database}</span><span class="s2">;&quot;</span>
+        <span class="s2">&quot;Trusted_Connection=yes;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;lin&quot;</span><span class="p">:</span> <span class="s2">&quot;Driver={ODBC Driver 13 for SQL Server};&quot;</span>
+        <span class="n">f</span><span class="s2">&quot;Server=</span><span class="si">{server}</span><span class="s2">;&quot;</span>
+        <span class="n">f</span><span class="s2">&quot;UID=</span><span class="si">{username}</span><span class="s2">;&quot;</span>
+        <span class="n">f</span><span class="s2">&quot;PWD=</span><span class="si">{password}</span><span class="s2">;&quot;</span>
+        <span class="n">f</span><span class="s2">&quot;Database=</span><span class="si">{database}</span><span class="s2">;&quot;</span>
+        <span class="s2">&quot;Trusted_Connection=yes;&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;darwin&quot;</span><span class="p">:</span> <span class="n">f</span><span class="s2">&quot;DSN=</span><span class="si">{dsn}</span><span class="s2">;&quot;</span>
+        <span class="n">f</span><span class="s2">&quot;UID=</span><span class="si">{username}</span><span class="s2">;&quot;</span>
+        <span class="n">f</span><span class="s2">&quot;PWD=</span><span class="si">{password}</span><span class="s2">;&quot;</span>
+        <span class="n">f</span><span class="s2">&quot;Database=</span><span class="si">{database}</span><span class="s2">;&quot;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">connection_strings</span><span class="p">[</span><span class="n">platform</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="run_query"><a class="viewcode-back" href="../../reference/reference_executers.html#sqltools.executers.run_query">[docs]</a><span class="k">def</span> <span class="nf">run_query</span><span class="p">(</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">database</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;DefaultDB&quot;</span><span class="p">,</span>
+    <span class="n">server</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;DefaultServer&quot;</span><span class="p">,</span>
+    <span class="n">username</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">password</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">dsn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;MYMSSQL&quot;</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">NamedTuple</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run query through Pandas.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    query : SQL str</span>
+<span class="sd">        The SQL query to execute.</span>
+<span class="sd">    database : str, optional</span>
+<span class="sd">        The database to connect to. By default is &quot;DefaultDB&quot;.</span>
+<span class="sd">    server : str, optional</span>
+<span class="sd">        The server to connect to. By default is &quot;DefaultServer&quot;.</span>
+<span class="sd">    username : str in the form of &quot;FRD\\pcosta&quot;, optional</span>
+<span class="sd">        SQL database username. By default None, uses Kerberos authentication if</span>
+<span class="sd">        on Windows or environmental variable ``SQLUSERNAME`` if on Linux or</span>
+<span class="sd">        macOS.</span>
+<span class="sd">    password : str, optional</span>
+<span class="sd">        SQL database password. By default None, uses Kerberos authentication</span>
+<span class="sd">        if on Windows or environmental variable ``SQLPASSWORD`` if on Linux or</span>
+<span class="sd">        macOS.</span>
+<span class="sd">    dsn : str, optional</span>
+<span class="sd">        Server connection object for macOS if using unixODBC. By default set to</span>
+<span class="sd">        &quot;MYMSSQL&quot;.</span>
+<span class="sd">    params : List or tuple of strings, optional</span>
+<span class="sd">        Any parameters to fill in. They will fill any &quot;?&quot; characters found in</span>
+<span class="sd">        query, by default None.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        Query results are returned as a Pandas DataFrame.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    Return the information of 10 customers.</span>
+
+<span class="sd">    &gt;&gt;&gt; import sqltools</span>
+<span class="sd">    &gt;&gt;&gt; query = &#39;&#39;&#39;</span>
+<span class="sd">    ...     --sql</span>
+<span class="sd">    ...     SELECT</span>
+<span class="sd">    ...         TOP 10 *</span>
+<span class="sd">    ...     FROM</span>
+<span class="sd">    ...         customer;</span>
+<span class="sd">    ... &#39;&#39;&#39;</span>
+<span class="sd">    &gt;&gt;&gt; sqltools.run_query(q)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">connection_string</span> <span class="o">=</span> <span class="n">_get_connection_string</span><span class="p">(</span>
+        <span class="n">database</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">dsn</span><span class="o">=</span><span class="n">dsn</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="n">pyodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="run_command"><a class="viewcode-back" href="../../reference/reference_executers.html#sqltools.executers.run_command">[docs]</a><span class="k">def</span> <span class="nf">run_command</span><span class="p">(</span>
+    <span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">database</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;DefaultDB&quot;</span><span class="p">,</span>
+    <span class="n">server</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;DefaultServer&quot;</span><span class="p">,</span>
+    <span class="n">username</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">password</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">dsn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;MYMSSQL&quot;</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run sql command.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    command : SQL str</span>
+<span class="sd">        The SQL command to execute.</span>
+<span class="sd">    database : str, optional</span>
+<span class="sd">        The database to connect to. By default is &quot;DefaultDB&quot;.</span>
+<span class="sd">    server : str, optional</span>
+<span class="sd">        The server to connect to. By default is &quot;DefaultServer&quot;.</span>
+<span class="sd">    username : str in the form of &quot;FRD\\pcosta&quot;, optional</span>
+<span class="sd">        SQL database username. By default None, uses Kerberos authentication if</span>
+<span class="sd">        on Windows or environmental variable ``SQLUSERNAME`` if on Linux or</span>
+<span class="sd">        macOS.</span>
+<span class="sd">    password : str, optional</span>
+<span class="sd">        SQL database password. By default None, uses Kerberos authentication</span>
+<span class="sd">        if on Windows or environmental variable ``SQLPASSWORD`` if on Linux or</span>
+<span class="sd">        macOS.</span>
+<span class="sd">    dsn : str, optional</span>
+<span class="sd">        Server connection object for macOS if using unixODBC. By default set to</span>
+<span class="sd">        &quot;MYMSSQL&quot;.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Drop the temporary table named &quot;temp_table&quot;.</span>
+
+<span class="sd">    &gt;&gt;&gt; import sqltools</span>
+<span class="sd">    &gt;&gt;&gt; command = &#39;&#39;&#39;</span>
+<span class="sd">    ...     IF OBJECT_ID(&#39;tempdb..temp_table&#39;, &#39;U&#39;) IS NOT NULL DROP TABLE temp_table</span>
+<span class="sd">    ... &#39;&#39;&#39;</span>
+<span class="sd">    &gt;&gt;&gt; sqltools.run_command(command)</span>
+
+<span class="sd">    Set the default schema of user FRD\\abby to &quot;gb&quot;.</span>
+
+<span class="sd">    &gt;&gt;&gt; import sqltools</span>
+<span class="sd">    &gt;&gt;&gt; command = &#39;&#39;&#39;</span>
+<span class="sd">    ...     ALTER USER [FRD\\abby] WITH DEFAULT_SCHEMA = &quot;gb&quot;;</span>
+<span class="sd">    ... &#39;&#39;&#39;</span>
+<span class="sd">    &gt;&gt;&gt; sqltoo.run_command(command)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">connection_string</span> <span class="o">=</span> <span class="n">_get_connection_string</span><span class="p">(</span>
+        <span class="n">database</span><span class="p">,</span> <span class="n">server</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span> <span class="n">dsn</span><span class="o">=</span><span class="n">dsn</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="n">pyodbc</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">connection_string</span><span class="p">,</span> <span class="n">autocommit</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
+        <span class="n">crsr</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+        <span class="n">crsr</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">command</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>  
+
+
+  </body>
+</html>

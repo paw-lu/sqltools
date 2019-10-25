@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>sqltools &#8212; sqltools 0.0.1 documentation</title>
+    <style>
+    :root {
+        --mdc-theme-primary: #2d907f;
+        --mdc-theme-secondary: #e1c133;
+    }
+    </style>
+
+    <link rel="stylesheet" href="_static/bundle-style.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js" async></script>
+        <!-- _static/jquery.js -->
+        
+        <!-- _static/underscore.js -->
+        
+        <!-- _static/doctools.js -->
+        
+        <!-- _static/language_data.js -->
+        
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="_static/bundle.js" async></script>
+    <script src="_static/underscore.js" async></script>
+    <script src="_static/doctools.js" async></script>
+    <script src="_static/language_data.js" async></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Executer functions" href="reference/reference_executers.html" />
+    <link rel="prev" title="Welcome to sqltools’s documentation!" href="index.html" /> 
+  </head>
+  <body class="mdc-typography">
+  
+
+
+<header class="mdc-top-app-bar app-bar" id="app-bar">
+    <div class="mdc-top-app-bar__row">
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+        <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+        <span class="mdc-top-app-bar__title"><a href="index.html" class="nostylea">sqltools 0.0.1 documentation</a></span>
+      </section>
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+            <a href="search.html" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" title="Search">search</a>
+        </section>
+    </div>
+  </header>
+  <aside class="mdc-drawer mdc-drawer--modal">
+    <div class="mdc-drawer__header">
+        <h3 class="mdc-drawer__title"><a class="nostylea" href="index.html">sqltools 0.0.1 documentation</a></h3>
+    </div>
+    <div class="mdc-drawer__content">
+      <div class="mdc-list">
+        <h6 class="mdc-list-group__subheader">Contents</h6>
+        <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">sqltools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">Quick start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/reference_executers.html">Executer functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/reference_helpers.html">Helper functions</a></li>
+</ul>
+
+        
+        <h6 class="mdc-list-group__subheader" style="margin-bottom: 16px;">Options</h6>
+        <div class="mdc-switch">
+            <div class="mdc-switch__track"></div>
+            <div class="mdc-switch__thumb-underlay">
+                <div class="mdc-switch__thumb">
+                    <input type="checkbox" id="basic-switch" class="mdc-switch__native-control" role="switch">
+                </div>
+            </div>
+        </div>
+        <label for="basic-switch" style="padding-left: 16px; cursor: pointer;">Dark theme</label>
+      
+      </div>
+      
+    </div>
+  </aside>
+
+  <div class="mdc-drawer-scrim"></div>
+  
+  <div class="mdc-drawer-app-content">
+    <main class="main-content" id="main-content">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="sqltools">
+<h1>sqltools<a class="headerlink" href="#sqltools" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://github.com/ambv/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a></p>
+<p>Basic library to help with data exploration in SQL when using Jupyter/iPython.</p>
+<div class="section" id="quick-start">
+<h2>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<p>Quick peak at columns.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqltools</span>
+
+<span class="n">sqltools</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="s2">&quot;customers&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>|     | customer_id | name    |
+| — | ———– | ——- |
+| 0   | 11111       | Abby    |
+| 1   | 22222       | Austin  |
+| 2   | 33333       | Vinny   |
+| 3   | 44444       | Alex    |
+| 4   | 55555       | Natalie |</p>
+<p>Find columns by their names in all tables.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sqltools</span><span class="o">.</span><span class="n">find_cols</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>|     | column_name | table_name |
+| — | ———– | ———- |
+| 0   | customer_id | customers  |
+| 1   | album_id    | albums     |
+| 2   | song_id     | songs      |</p>
+<p>Run queries and return their outputs as Pandas DataFrame</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    --sql</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        *</span>
+<span class="s2">    FROM</span>
+<span class="s2">        customers</span>
+<span class="s2">    WHERE</span>
+<span class="s2">        id IN (5, 3, 4);</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">interesting_customers</span> <span class="o">=</span> <span class="n">sqltools</span><span class="o">.</span><span class="n">run_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create temporary tables that you can query.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tt</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    --sql</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        TOP 1000 * INTO ##customer_sample</span>
+<span class="s2">    FROM</span>
+<span class="s2">        customers;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">customer_sample</span> <span class="o">=</span> <span class="n">TempTable</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+
+<span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    --sql</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        *</span>
+<span class="s2">    FROM</span>
+<span class="s2">        ##customer_sample</span>
+<span class="s2">    WHERE</span>
+<span class="s2">        birthday &lt; &#39;2019-01-01&#39;;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">young_sample_customers</span> <span class="o">=</span> <span class="n">run_query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+<span class="n">customer_sample</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># Close when done with temporary table</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>More functionality and accompanying examples may be found in the docs.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>  
+
+
+  </body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Helper functions &#8212; sqltools 0.0.1 documentation</title>
+    <style>
+    :root {
+        --mdc-theme-primary: #2d907f;
+        --mdc-theme-secondary: #e1c133;
+    }
+    </style>
+
+    <link rel="stylesheet" href="../_static/bundle-style.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js" async></script>
+        <!-- _static/jquery.js -->
+        
+        <!-- _static/underscore.js -->
+        
+        <!-- _static/doctools.js -->
+        
+        <!-- _static/language_data.js -->
+        
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <script src="../_static/bundle.js" async></script>
+    <script src="../_static/underscore.js" async></script>
+    <script src="../_static/doctools.js" async></script>
+    <script src="../_static/language_data.js" async></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Executer functions" href="reference_executers.html" /> 
+  </head>
+  <body class="mdc-typography">
+  
+
+
+<header class="mdc-top-app-bar app-bar" id="app-bar">
+    <div class="mdc-top-app-bar__row">
+      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+        <a href="#" class="material-icons mdc-top-app-bar__navigation-icon">menu</a>
+        <span class="mdc-top-app-bar__title"><a href="../index.html" class="nostylea">sqltools 0.0.1 documentation</a></span>
+      </section>
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+            <a href="../search.html" class="material-icons mdc-top-app-bar__action-item" aria-label="Search" title="Search">search</a>
+        </section>
+    </div>
+  </header>
+  <aside class="mdc-drawer mdc-drawer--modal">
+    <div class="mdc-drawer__header">
+        <h3 class="mdc-drawer__title"><a class="nostylea" href="../index.html">sqltools 0.0.1 documentation</a></h3>
+    </div>
+    <div class="mdc-drawer__content">
+      <div class="mdc-list">
+        <h6 class="mdc-list-group__subheader">Contents</h6>
+        <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../README.html">sqltools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference_executers.html">Executer functions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Helper functions</a></li>
+</ul>
+
+        
+        <h6 class="mdc-list-group__subheader" style="margin-bottom: 16px;">Options</h6>
+        <div class="mdc-switch">
+            <div class="mdc-switch__track"></div>
+            <div class="mdc-switch__thumb-underlay">
+                <div class="mdc-switch__thumb">
+                    <input type="checkbox" id="basic-switch" class="mdc-switch__native-control" role="switch">
+                </div>
+            </div>
+        </div>
+        <label for="basic-switch" style="padding-left: 16px; cursor: pointer;">Dark theme</label>
+      
+      </div>
+      
+    </div>
+  </aside>
+
+  <div class="mdc-drawer-scrim"></div>
+  
+  <div class="mdc-drawer-app-content">
+    <main class="main-content" id="main-content">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-sqltools.helpers">
+<span id="helper-functions"></span><h1>Helper functions<a class="headerlink" href="#module-sqltools.helpers" title="Permalink to this headline">¶</a></h1>
+<p>A collection of helper functions related to SQL.</p>
+<dl class="class">
+<dt id="sqltools.helpers.TempTable">
+<em class="property">class </em><code class="sig-prename descclassname">sqltools.helpers.</code><code class="sig-name descname">TempTable</code><span class="sig-paren">(</span><em class="sig-param">command: str</em>, <em class="sig-param">database: str = 'DefaultDB'</em>, <em class="sig-param">server: str = 'DefaultServer'</em>, <em class="sig-param">username: Optional[str] = None</em>, <em class="sig-param">password: Optional[str] = None</em>, <em class="sig-param">dsn: str = 'MYMSSQL'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sqltools/helpers.html#TempTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sqltools.helpers.TempTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a temporary table.</p>
+<p>If a table already exists with the same name as the table that is
+attempting to be created, it will be dropped first.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>command</strong> (<em>SQL str</em>) – A SQL command that creates a temporary table.</p></li>
+<li><p><strong>database</strong> (<em>str</em><em>, </em><em>optional</em>) – The database to connect to. By default is “DefaultDB”.</p></li>
+<li><p><strong>server</strong> (<em>str</em><em>, </em><em>optional</em>) – The server to connect to. By default is “DefaultServer”.</p></li>
+<li><p><strong>username</strong> (<em>str in the form of &quot;FRD\pcosta&quot;</em><em>, </em><em>optional</em>) – SQL database username. By default None, uses Kerberos authentication if
+on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLUSERNAME</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>password</strong> (<em>str</em><em>, </em><em>optional</em>) – SQL database password. By default None, uses Kerberos authentication
+if on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLPASSWORD</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>dsn</strong> (<em>str</em><em>, </em><em>optional</em>) – Server connection object for macOS if using unixODBC. By default set to
+“MYMSSQL”.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>Create a temporary table with 10 customers.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sqltools</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tt</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">    --sql</span>
+<span class="gp">... </span><span class="s1">    SELECT</span>
+<span class="gp">... </span><span class="s1">        TOP 10 * INTO ##ten_customers</span>
+<span class="gp">... </span><span class="s1">    FROM</span>
+<span class="gp">... </span><span class="s1">        customer;</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ten_customers</span> <span class="o">=</span> <span class="n">sqltools</span><span class="o">.</span><span class="n">TempTable</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The table may now be queried.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">    --sql</span>
+<span class="gp">... </span><span class="s1">    SELECT</span>
+<span class="gp">... </span><span class="s1">        TOP 1 *</span>
+<span class="gp">... </span><span class="s1">    FROM</span>
+<span class="gp">... </span><span class="s1">        ##ten_customers;</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sqltools</span><span class="o">.</span><span class="n">run_query</span><span class="p">(</span><span class="n">queryd</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The temporary table may be closed when no longer in use.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ten_customers</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="sqltools.helpers.TempTable.close">
+<code class="sig-name descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/sqltools/helpers.html#TempTable.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sqltools.helpers.TempTable.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the created temporary table.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="sqltools.helpers.change_schema">
+<code class="sig-prename descclassname">sqltools.helpers.</code><code class="sig-name descname">change_schema</code><span class="sig-paren">(</span><em class="sig-param">schema: str</em>, <em class="sig-param">database: str = 'DefaultDB'</em>, <em class="sig-param">server: str = 'DefaultServer'</em>, <em class="sig-param">username: Optional[str] = None</em>, <em class="sig-param">password: Optional[str] = None</em>, <em class="sig-param">dsn: str = 'MYMSSQL'</em><span class="sig-paren">)</span> &#x2192; None<a class="reference internal" href="../_modules/sqltools/helpers.html#change_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sqltools.helpers.change_schema" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the default schema of the user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>schema</strong> (<em>str</em>) – Schema name to be set to new default.</p></li>
+<li><p><strong>database</strong> (<em>str</em><em>, </em><em>optional</em>) – The database to connect to. By default is “DefaultDB”.</p></li>
+<li><p><strong>server</strong> (<em>str</em><em>, </em><em>optional</em>) – The server to connect to. By default is “DefaultServer”.</p></li>
+<li><p><strong>username</strong> (<em>str in the form of &quot;FRD\pcosta&quot;</em><em>, </em><em>optional</em>) – SQL database username. By default None, uses Kerberos authentication if
+on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLUSERNAME</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>password</strong> (<em>str</em><em>, </em><em>optional</em>) – SQL database password. By default None, uses Kerberos authentication
+if on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLPASSWORD</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>dsn</strong> (<em>str</em><em>, </em><em>optional</em>) – Server connection object for macOS if using unixODBC. By default set to
+“MYMSSQL”.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sqltools.helpers.find_cols">
+<code class="sig-prename descclassname">sqltools.helpers.</code><code class="sig-name descname">find_cols</code><span class="sig-paren">(</span><em class="sig-param">search_terms: Union[str, List[str], Tuple[str, ...]], database: str = 'DefaultDB', server: str = 'DefaultServer', username: Optional[str] = None, password: Optional[str] = None, dsn: str = 'MYMSSQL'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="../_modules/sqltools/helpers.html#find_cols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sqltools.helpers.find_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the tables whose columns containt the inputted search terms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>search_terms</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>..</em><em>]</em><em>]</em>) – Terms of list of terms that will be searched for. If multiple terms are
+inputted, returned columns must match each term.</p></li>
+<li><p><strong>database</strong> (<em>str</em><em>, </em><em>optional</em>) – The database to connect to. By default is “DefaultDB”.</p></li>
+<li><p><strong>server</strong> (<em>str</em><em>, </em><em>optional</em>) – The server to connect to. By default is “DefaultServer”.</p></li>
+<li><p><strong>username</strong> (<em>str in the form of &quot;FRD\pcosta&quot;</em><em>, </em><em>optional</em>) – SQL database username. By default None, uses Kerberos authentication if
+on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLUSERNAME</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>password</strong> (<em>str</em><em>, </em><em>optional</em>) – SQL database password. By default None, uses Kerberos authentication
+if on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLPASSWORD</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>dsn</strong> (<em>str</em><em>, </em><em>optional</em>) – Server connection object for macOS if using unixODBC. By default set to
+“MYMSSQL”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>column_locations</strong> – DataFrame with columns “column_name” and “table_name”.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sqltools.helpers.find_tables">
+<code class="sig-prename descclassname">sqltools.helpers.</code><code class="sig-name descname">find_tables</code><span class="sig-paren">(</span><em class="sig-param">search_terms: Union[str, List[str], Tuple[str, ...]], database: str = 'DefaultDB', server: str = 'DefaultServer', username: Optional[str] = None, password: Optional[str] = None, dsn: str = 'MYMSSQL'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="../_modules/sqltools/helpers.html#find_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sqltools.helpers.find_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the tables whose names contain the inputted search terms.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>search_terms</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em><em>, </em><em>Tuple</em><em>[</em><em>str</em><em>, </em><em>..</em><em>]</em><em>]</em>) – Terms of list of terms that will be searched for. If multiple terms are
+inputted, returned table names must match each term.</p></li>
+<li><p><strong>database</strong> (<em>str</em><em>, </em><em>optional</em>) – The database to connect to. By default is “DefaultDB”.</p></li>
+<li><p><strong>server</strong> (<em>str</em><em>, </em><em>optional</em>) – The server to connect to. By default is “DefaultServer”.</p></li>
+<li><p><strong>username</strong> (<em>str in the form of &quot;FRD\pcosta&quot;</em><em>, </em><em>optional</em>) – SQL database username. By default None, uses Kerberos authentication if
+on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLUSERNAME</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>password</strong> (<em>str</em><em>, </em><em>optional</em>) – SQL database password. By default None, uses Kerberos authentication
+if on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLPASSWORD</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>dsn</strong> (<em>str</em><em>, </em><em>optional</em>) – Server connection object for macOS if using unixODBC. By default set to
+“MYMSSQL”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tables</strong> – DataFrame containing all matching tables. Column name is “table_name”.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sqltools.helpers.get_cols">
+<code class="sig-prename descclassname">sqltools.helpers.</code><code class="sig-name descname">get_cols</code><span class="sig-paren">(</span><em class="sig-param">table_name: str</em>, <em class="sig-param">database: str = 'DefaultDB'</em>, <em class="sig-param">server: str = 'DefaultServer'</em>, <em class="sig-param">username: Optional[str] = None</em>, <em class="sig-param">password: Optional[str] = None</em>, <em class="sig-param">dsn: str = 'MYMSSQL'</em><span class="sig-paren">)</span> &#x2192; List[str]<a class="reference internal" href="../_modules/sqltools/helpers.html#get_cols"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sqltools.helpers.get_cols" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return all of a table’s column names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_name</strong> (<em>str</em>) – Name of the table whose columns will be returned.</p></li>
+<li><p><strong>database</strong> (<em>str</em><em>, </em><em>optional</em>) – The database to connect to. By default is “DefaultDB”.</p></li>
+<li><p><strong>server</strong> (<em>str</em><em>, </em><em>optional</em>) – The server to connect to. By default is “DefaultServer”.</p></li>
+<li><p><strong>username</strong> (<em>str in the form of &quot;FRD\pcosta&quot;</em><em>, </em><em>optional</em>) – SQL database username. By default None, uses Kerberos authentication if
+on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLUSERNAME</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>password</strong> (<em>str</em><em>, </em><em>optional</em>) – SQL database password. By default None, uses Kerberos authentication
+if on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLPASSWORD</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>dsn</strong> (<em>str</em><em>, </em><em>optional</em>) – Server connection object for macOS if using unixODBC. By default set to
+“MYMSSQL”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>column_names</strong> – The column names of the inputted table.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sqltools.helpers.head">
+<code class="sig-prename descclassname">sqltools.helpers.</code><code class="sig-name descname">head</code><span class="sig-paren">(</span><em class="sig-param">table_name: str</em>, <em class="sig-param">n: int = 5</em>, <em class="sig-param">database: str = 'DefaultDB'</em>, <em class="sig-param">server: str = 'DefaultServer'</em>, <em class="sig-param">username: Optional[str] = None</em>, <em class="sig-param">password: Optional[str] = None</em>, <em class="sig-param">dsn: str = 'MYMSSQL'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="../_modules/sqltools/helpers.html#head"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sqltools.helpers.head" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the first <code class="docutils literal notranslate"><span class="pre">n</span></code> rows from a table.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>table_name</strong> (<em>str</em>) – Name of the table from which the top <code class="docutils literal notranslate"><span class="pre">n</span></code> rows will be returned from.</p></li>
+<li><p><strong>n</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of rows to return. By default is 5.</p></li>
+<li><p><strong>database</strong> (<em>str</em><em>, </em><em>optional</em>) – The database to connect to. By default is “DefaultDB”.</p></li>
+<li><p><strong>server</strong> (<em>str</em><em>, </em><em>optional</em>) – The server to connect to. By default is “DefaultServer”.</p></li>
+<li><p><strong>username</strong> (<em>str in the form of &quot;FRD\pcosta&quot;</em><em>, </em><em>optional</em>) – SQL database username. By default None, uses Kerberos authentication if
+on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLUSERNAME</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>password</strong> (<em>str</em><em>, </em><em>optional</em>) – SQL database password. By default None, uses Kerberos authentication
+if on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLPASSWORD</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>dsn</strong> (<em>str</em><em>, </em><em>optional</em>) – Server connection object for macOS if using unixODBC. By default set to
+“MYMSSQL”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>table_head</strong> – The top <code class="docutils literal notranslate"><span class="pre">n</span></code> rows of the selected table.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sqltools.helpers.show_temp">
+<code class="sig-prename descclassname">sqltools.helpers.</code><code class="sig-name descname">show_temp</code><span class="sig-paren">(</span><em class="sig-param">database: str = 'DefaultDB'</em>, <em class="sig-param">server: str = 'DefaultServer'</em>, <em class="sig-param">username: Optional[str] = None</em>, <em class="sig-param">password: Optional[str] = None</em>, <em class="sig-param">dsn: str = 'MYMSSQL'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="../_modules/sqltools/helpers.html#show_temp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sqltools.helpers.show_temp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show all temporary tables in the database.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>database</strong> (<em>str</em><em>, </em><em>optional</em>) – The database to connect to. By default is “DefaultDB”.</p></li>
+<li><p><strong>server</strong> (<em>str</em><em>, </em><em>optional</em>) – The server to connect to. By default is “DefaultServer”.</p></li>
+<li><p><strong>username</strong> (<em>str in the form of &quot;FRD\pcosta&quot;</em><em>, </em><em>optional</em>) – SQL database username. By default None, uses Kerberos authentication if
+on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLUSERNAME</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>password</strong> (<em>str</em><em>, </em><em>optional</em>) – SQL database password. By default None, uses Kerberos authentication
+if on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLPASSWORD</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>dsn</strong> (<em>str</em><em>, </em><em>optional</em>) – Server connection object for macOS if using unixODBC. By default set to
+“MYMSSQL”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>temp_table_names</strong> – Query results are returned as a Pandas DataFrame.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="sqltools.helpers.to_sql_list">
+<code class="sig-prename descclassname">sqltools.helpers.</code><code class="sig-name descname">to_sql_list</code><span class="sig-paren">(</span><em class="sig-param">python_list: Union[str, int, float, List[Union[str, int, float]]], force_string: bool = False</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../_modules/sqltools/helpers.html#to_sql_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sqltools.helpers.to_sql_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn a Python list into a SQL list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>python_list</strong> (<em>str</em><em>, </em><em>int</em><em>, or </em><em>List of floats</em><em>, </em><em>ints</em><em>, or </em><em>strings</em>) – Python list to convert to a SQL list.</p></li>
+<li><p><strong>force_string</strong> (<em>bool</em><em>, </em><em>optional</em>) – Determine whether to force SQL list to be a list of strings. By default
+is False, and will detect the type of the first element in the list.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>sql_list</strong> – Return string in the form of (a,b,c,d) for insertion into sql
+query.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>Find all customers with an id of 1, 4, or 5.
+&gt;&gt;&gt; import sqltools
+&gt;&gt;&gt; cust_ids = [1, 4, 5]
+&gt;&gt;&gt; query = f’’’
+…     –sql
+…     SELECT
+…         *
+…     FROM
+…         customer
+…     WHERE
+…         id IN {sqltools.to_sql_list(cust_ids)}
+… ‘’’
+&gt;&gt;&gt; sqltools.run_query(query)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="sqltools.helpers.unique">
+<code class="sig-prename descclassname">sqltools.helpers.</code><code class="sig-name descname">unique</code><span class="sig-paren">(</span><em class="sig-param">column: str</em>, <em class="sig-param">table: str</em>, <em class="sig-param">database: str = 'DefaultDB'</em>, <em class="sig-param">server: str = 'DefaultServer'</em>, <em class="sig-param">username: Optional[str] = None</em>, <em class="sig-param">password: Optional[str] = None</em>, <em class="sig-param">dsn: str = 'MYMSSQL'</em><span class="sig-paren">)</span> &#x2192; pandas.core.frame.DataFrame<a class="reference internal" href="../_modules/sqltools/helpers.html#unique"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sqltools.helpers.unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return unique values of <code class="docutils literal notranslate"><span class="pre">column</span></code> from <code class="docutils literal notranslate"><span class="pre">table</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>column</strong> (<em>str</em>) – Name of column for which to return the unique values of.</p></li>
+<li><p><strong>table</strong> (<em>str</em>) – Name of the table for which <code class="docutils literal notranslate"><span class="pre">column</span></code> belongs to.</p></li>
+<li><p><strong>database</strong> (<em>str</em><em>, </em><em>optional</em>) – The database to connect to. By default is “DefaultDB”.</p></li>
+<li><p><strong>server</strong> (<em>str</em><em>, </em><em>optional</em>) – The server to connect to. By default is “DefaultServer”.</p></li>
+<li><p><strong>username</strong> (<em>str in the form of &quot;FRD\pcosta&quot;</em><em>, </em><em>optional</em>) – SQL database username. By default None, uses Kerberos authentication if
+on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLUSERNAME</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>password</strong> (<em>str</em><em>, </em><em>optional</em>) – SQL database password. By default None, uses Kerberos authentication
+if on Windows or environmental variable <code class="docutils literal notranslate"><span class="pre">SQLPASSWORD</span></code> if on Linux or
+macOS.</p></li>
+<li><p><strong>dsn</strong> (<em>str</em><em>, </em><em>optional</em>) – Server connection object for macOS if using unixODBC. By default set to
+“MYMSSQL”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>unique_values</strong> – The unique values of the column specified in <code class="docutils literal notranslate"><span class="pre">column</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>  
+
+
+  </body>
+</html>
